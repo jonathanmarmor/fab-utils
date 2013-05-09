@@ -2,17 +2,16 @@ from fabric.api import task, run, cd
 
 
 @task
-def clone(repo, user='jonathanmarmor'):
+def clone(repo, user='jonathanmarmor', private=False):
     with cd('/home/ubuntu'):
         run('mkdir apps')
 
     with cd('/home/ubuntu/apps'):
-        run('git clone https://github.com/{}/{}.git'.format(user, repo))
-
-
-# @task
-# def clone_private(repo, user):
-#     # @todo
+        if private:
+            # Only works with SSH forwarding at the moment
+            run('git clone git@github.com:{}/{}.git'.format(user, repo))
+        else:
+            run('git clone https://github.com/{}/{}.git'.format(user, repo))
 
 
 @task
